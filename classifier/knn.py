@@ -25,6 +25,21 @@ def classify0(inX, dataSet, lables, k):
     soredClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
     return soredClassCount[0][0]
 
+def file2matrix(filename):
+    fr = open(filename)
+    arrayOlines = fr.readlines()
+    numberOfLines = len(arrayOlines)
+    returnMat = numpy.zeros((numberOfLines, 3))
+    classLabelsVector = []
+    index = 0
+    for line in arrayOlines:
+        line = line.strip()
+        listFromLine = line.split('\t')
+        returnMat[index,:] = listFromLine[0:3]
+        classLabelsVector.append(listFromLine[-1])
+        index += 1
+    return returnMat, classLabelsVector
+
 if __name__ == '__main__':
     group, labels = create_data_set()
     print("group:", group)
