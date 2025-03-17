@@ -36,6 +36,36 @@ def genera_dating_test_data():
         comments=""
     )
 
+def generate_test_digits(output_dir="testDigits", samples_per_class=5):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    templates = {
+        0: [[1, 1, 1], [1, 0, 1], [1, 1, 1]],
+        1: [[0, 1, 0], [1, 1, 0], [0, 1, 0]],
+        2: [[1, 1, 1], [0, 0, 1], [1, 1, 1]],
+        3: [[1, 1, 1], [0, 1, 1], [1, 1, 1]],
+        4: [[1, 0, 1], [1, 1, 1], [0, 0, 1]],
+        5: [[1, 1, 1], [1, 0, 0], [1, 1, 1]],
+        6: [[1, 1, 1], [1, 0, 0], [1, 1, 1]],
+        7: [[1, 1, 1], [0, 0, 1], [0, 0, 1]],
+        8: [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+        9: [[1, 1, 1], [1, 1, 1], [0, 0, 1]]
+    }
+    for digit in range(10):
+        for i in range(samples_per_class):
+            matrix = numpy.zeros((32, 32))
+            start_row = numpy.random.randint(25)
+            start_col = numpy.random.randint(25)
+            for r in range(3):
+                for c in range(3):
+                    val = templates[digit][r][c]
+                    if numpy.random.random() < 0.2:
+                        val = 1 - val
+                    matrix[start_row + r][start_col + c] = val
+            filename = f"{digit}_{i}.txt"
+            with open(os.path.join(output_dir, filename), 'w') as f:
+                for row in matrix:
+                    f.write(''.join(map(str, row.astype(int))) + '\n')
 
 def create_data_set():
     group = numpy.array([[1.0, 1.1], [1.0, 1.0], [0, 0], [0, 0.1]])
@@ -140,5 +170,6 @@ def handwritingClassTest():
     print("the total error rate is: %f" % (errorCount / float(mTest)))
 
 if __name__ == '__main__':
-    classifyPerson()
+    testVector = img2vector('testDigits.txt')
+    print(testVector)
     pass
