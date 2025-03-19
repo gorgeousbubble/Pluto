@@ -27,9 +27,23 @@ def createDataSet():
     labels = ['no surfacing', 'flippers']
     return dataSet, labels
 
+def splitDataSet(dataSet, axis, value):
+    retDataSet = []
+    for featVec in dataSet:
+        if featVec[axis] == value:
+            reducedFeatVec = featVec[:axis]
+            reducedFeatVec.extend(featVec[axis:])
+            retDataSet.append(reducedFeatVec)
+    return retDataSet
+
 if __name__ == '__main__':
     myDataSet, myLabels = createDataSet()
-    print(myDataSet)
+    print("myDataSet:", myDataSet)
+    print("myLabels:", myLabels)
     shannonEnt = calcShannonEnt(myDataSet)
-    print(shannonEnt)
+    print("myDataSet Shannon Entropy:", shannonEnt)
+    splitDataSet1 = splitDataSet(myDataSet, 0, 0)
+    splitDataSet2 = splitDataSet(myDataSet, 1, 1)
+    print("splitDataSet1:", splitDataSet1)
+    print("splitDataSet2:", splitDataSet2)
     pass
