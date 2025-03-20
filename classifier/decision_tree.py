@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from asyncio.windows_events import INFINITE
 from math import log
 
 def calcShannonEnt(dataSet):
@@ -36,6 +37,25 @@ def splitDataSet(dataSet, axis, value):
             retDataSet.append(reducedFeatVec)
     return retDataSet
 
+def chooseBestFeatureToSplit(dataSet):
+    numFeatures = len(dataSet[0])-1
+    baseEntropy = calcShannonEnt(dataSet)
+    bestInfoGain = 0.0
+    bestFeature = -1
+    for i in range(numFeatures):
+        featList = [example[i] for example in dataSet]
+        uniqueVals = set(featList)
+        newEntropy = 0.0
+        for value in uniqueVals:
+            subDataSet = splitDataSet(dataSet, i, value)
+            prob = len(subDataSet) / float(len(dataSet))
+            newEntropy += prob * calcShannonEnt(subDataSet)
+        infoGain = baseEntropy - newEntropy
+        if infoGain > bestInfoGain:
+            bestInfoGain = infoGain
+            bestFeature = i
+    return bestFeature
+
 if __name__ == '__main__':
     myDataSet, myLabels = createDataSet()
     print("myDataSet:", myDataSet)
@@ -46,4 +66,6 @@ if __name__ == '__main__':
     splitDataSet2 = splitDataSet(myDataSet, 1, 1)
     print("splitDataSet1:", splitDataSet1)
     print("splitDataSet2:", splitDataSet2)
+    bestFeature = chooseBestFeatureToSplit(myDataSet)
+    print("bestFeature:", bestFeature)
     pass
