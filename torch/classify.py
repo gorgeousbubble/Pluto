@@ -31,5 +31,8 @@ if __name__ == '__main__':
     knn = Knn(k=3, category="classifier")
     knn.fit(x_train, y_train)
     prediction = knn.predict(x_test)
-    print(prediction)
+    print("x_train:", x_train)
+    print("y_train:", y_train)
+    print("x_test:", x_test)
+    print("prediction:", prediction)
     pass
