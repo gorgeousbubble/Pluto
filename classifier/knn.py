@@ -7,8 +7,11 @@ import numpy
 import operator
 import matplotlib
 import matplotlib.pyplot as plt
+from numpy.ma.core import choose
 
 from numpy.matlib import zeros
+
+from classifier.decision_tree import chooseBestFeatureToSplit, splitDataSet
 
 
 def genera_dating_test_data():
