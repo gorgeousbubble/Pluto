@@ -11,8 +11,6 @@ from numpy.ma.core import choose
 
 from numpy.matlib import zeros
 
-from classifier.decision_tree import chooseBestFeatureToSplit, splitDataSet
-
 
 def genera_dating_test_data():
     numpy.random.seed(42)
