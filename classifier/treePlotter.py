@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import matplotlib.pyplot
 
+from classifier.tree import createDataSet
+
 decisionNode = dict(boxstyle="sawtooth", fc="0.8")
 leafNode = dict(boxstyle="round4", fc="0.8")
 arrow_args = dict(arrowstyle="<-")
@@ -72,9 +74,26 @@ def plotTree(myTree, parentPt, nodeTxt):
             plotMidText((plotTree.xOff, plotTree.yOff), cntrPt, key)
     plotTree.yOff = plotTree.yOff + 1.0/plotTree.totalD
 
+def classify(inputTree, featLabels, testVec):
+    firstStr = list(inputTree.keys())[0]
+    secondDict = inputTree[firstStr]
+    featIndex = featLabels.index(firstStr)
+    for key in secondDict.keys():
+        if testVec[featIndex] == key:
+            if type(secondDict[key]) == dict:
+                classLabel = classify(secondDict[key], featLabels, testVec)
+            else:
+                classLabel = secondDict[key]
+    return classLabel
+
 if __name__ == '__main__':
+    myData, myLabels = createDataSet()
+    print("myData", myData)
+    print("myLabels", myLabels)
     print("Retrieve Tree 1:", retrieveTree(1))
     myTree = retrieveTree(0)
+    print("Classify:[1, 0]", classify(myTree, myLabels, [1, 0]))
+    print("Classify:[1, 1]", classify(myTree, myLabels, [1, 1]))
     print("Leafs number of myTree:", getNumLeafs(myTree))
     print("Depth of myTree:", getTreeDepth(myTree))
     createPlot(myTree)
