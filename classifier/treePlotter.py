@@ -86,6 +86,18 @@ def classify(inputTree, featLabels, testVec):
                 classLabel = secondDict[key]
     return classLabel
 
+
+def storeTree(inputTree, filename):
+    import pickle
+    fw = open(filename, 'wb')
+    pickle.dump(inputTree, fw)
+    fw.close()
+
+def grabTree(filename):
+    import pickle
+    fr = open(filename, 'rb')
+    return pickle.load(fr)
+
 if __name__ == '__main__':
     myData, myLabels = createDataSet()
     print("myData", myData)
@@ -97,4 +109,8 @@ if __name__ == '__main__':
     print("Leafs number of myTree:", getNumLeafs(myTree))
     print("Depth of myTree:", getTreeDepth(myTree))
     createPlot(myTree)
+    print("store myTree")
+    storeTree(myTree, 'classifierStorage.txt')
+    print("grab myTree")
+    print(grabTree('classifierStorage.txt'))
     pass

@@ -95,6 +95,4 @@ if __name__ == '__main__':
     print("splitDataSet2:", splitDataSet2)
     bestFeature = chooseBestFeatureToSplit(myDataSet)
     print("bestFeature:", bestFeature)
-    myTree = createTree(myDataSet, myLabels)
-    print("myTree:", myTree)
     pass
